@@ -1,0 +1,72 @@
+##########################################################################
+# This file is part of the Docker-Networks' Lab session support files.
+# Copyright (C) 2022-2023 Eric Roy <eric@ericroy.net>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##########################################################################
+
+# BASIC HELP MENU
+#################
+# - Requisites: cd in this file's location, run `docker swarm init`.
+# - Run `docker-compose up -d` to start.
+# - Run `docker-compose down` to stop.
+# - Attatch to every node's bash terminal with
+#   `docker attach docker_networks_node1_1` (or any node).
+# - You can exit the node's bash terminal you stop that container.
+#   Restart that only container with `docker_compose restart node1`
+
+# This file will start multiple containers connected with some educational
+# networks. You can check some diagrams and basic documentation at
+# https://github.com/royalmo/docker-networks
+
+---
+version: "3.5"
+
+container_name: docker_networks
+
+services:
+  node1:
+    image: royalmo/docker-networks
+    hostname: node1
+    name: node1
+    tty: true
+    stdin_open: true
+    networks:
+      - net1
+      - bridge
+  node2:
+    image: royalmo/docker-networks
+    hostname: node2
+    name: node2
+    tty: true
+    stdin_open: true
+    networks:
+      - net1
+      - net2
+  node3:
+    image: royalmo/docker-networks
+    hostname: node3
+    name: node3
+    tty: true
+    stdin_open: true
+    networks:
+      - net2
+
+networks:
+  net1:
+    driver: overlay
+    internal: true
+  net2:
+    driver: overlay
+    internal: true
