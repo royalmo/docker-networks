@@ -189,7 +189,8 @@ Here is a list of the most basic commands that you may need in the first tasks:
 
   Docker implemented a feature that, if the image specified doesn't exist in the
   host machine, it will look for it in the Docker Hub repositories, download it
-  and run it. This will save us (in our case) every `docker build` command.
+  and run it. This will save us (in our case) every `docker build` and
+  `docker pull` command.
 
 - `docker ps` lists the active containers and some information about them.
 
@@ -200,9 +201,81 @@ There are a ton of commands, and some of them will be explained along this
 document, but if you wish to have a cheatsheet you can check the official
 documentation.
 
-### Practical example
+### Exercises and tasks
 
-Now that you have some knowleadge about Docker, let's make some
+Now that you have some knowleadge about Docker, let's play a little bit with it.
+
+---
+
+**EXERCISE 4** Run `docker run -it ubuntu`. The container's bash prompt will be
+displayed over the current terminal. In another terminal run `docker ps` to
+check the state of that terminal.
+
+---
+
+As you can see, the `ubuntu` image ([_/ubuntu](https://hub.docker.com/_/ubuntu))
+contains a basic ubuntu distribution (the version could be speficied i.e.
+`docker run -it ubuntu:18.04`), **with the most basic commands**. Having only
+the essential programs permits a lightweigth image and faster boot times.
+
+You can see that we are in another machine because the terminal prompt cas a
+different host machine (remember: `user_name@computer_name`).
+
+---
+
+**TASK 1** In that container, check which commands do work properly:
+- `emacs test.txt`
+- `echo hola`
+- `nano test.txt`
+- `vi test.txt`
+- `ping google.com`
+- `ip a`
+- `sudo echo hola`
+
+Did some of the results surprised you? Will it be able to perform tasks with
+these applications?
+
+---
+
+As you may imagine, we need to install some packages to run our applications.
+For example, if we want to virtualize our Python script, we will need to install
+it.
+
+---
+
+**EXERCISE 5** Run `apt list` and check if the nano package is listed blow.
+Remember that this list contains all the installable and installed packages.
+
+---
+
+The basic Ubuntu image comes with the smallest package list possible, again, to
+use less resources. But in order to install a package, we need to add that entry
+to the package list. Do you remember how we update the package list?
+
+---
+
+**TASK 2** Try to install nano (`apt install nano`). Did it work? Update the
+package list with `apt update`. Once this done, check `apt list`. Do you see it
+now?
+
+Install it and try the nano command. Did it work?
+
+---
+
+Now we will verify the persistance of a container.
+
+---
+
+**TASK 3** Stop the current container by exiting its bash terminal. Check
+that nothing appears in `docker ps`, but the *Ubuntu* image still appears in
+`docker image ls`.
+
+Run the container again, and check if `nano` is still installed. Did you expect
+that to happen? Why?
+
+---
+
+
 
 
 
