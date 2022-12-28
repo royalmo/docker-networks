@@ -31,9 +31,18 @@ EPSEM (UPC Manresa). You can check more content
 ## Table of contents
 
 - [Introduction](#introduction)
+  - [Submission details](#submission-details)
 - [Docker installation](#docker-installation)
+  - [Docker Hub account](#docker-hub-account)
 - [What is Docker?](#what-is-docker)
+  - [The initial problem](#the-initial-problem)
+  - [Virtualising applications](#virtualising-applications)
+  - [Terminology](#terminology)
+  - [Basic commands](#basic-commands)
+  - [Exercises and tasks](#exercises-and-tasks)
 - [What is docker-compose?](#what-is-docker-compose)
+  - [docker-compose commands](#docker-compose-commands)
+  - [Practical example](#practical-example)
 - [Basic Docker commands](#basic-docker-commands)
 - [Docker networking](#docker-networking)
 - [More information](#more-information)
@@ -140,7 +149,7 @@ mostly, **the resources of the physical machine would need to be shared out in
 a fixed size**, meaning that at some point application 1 wouldn't need all its
 resources and application 2 wouldn't keep up with the given resources.
 
-### Virtualising aplications
+### Virtualising applications
 
 Here's where Docker comes into our rescue. There're a lot of features that the
 application doesn't need to run (i.e. a Desktop environment). It is possible to
@@ -190,6 +199,11 @@ Here is a list of the most basic commands that you may need in the first tasks:
 
 - `docker image ls` will list all locally saved images. You can remove them to
   save some memory space.
+
+- `docker system prune -a` will delete **everything** you created using docker
+  commands: networks, images, rules... this can be a good idea if you don't know
+  what you just did. There are less heavy ways to fix things, but this will
+  work everytime.
 
 There are a ton of commands, and some of them will be explained along this
 document, but if you wish to have a cheatsheet you can check the official
@@ -285,7 +299,7 @@ manage multiple containers at once, and the connections between them. In our
 case, we will use it to create multiple containers at once, and to connect them
 as we wish.
 
-### Basic commands
+### docker-compose commands
 
 The `docker-compose` command will work *only* if it's executed in a folder where
 a file named `docker-compose.yml` exists. We will not talk too much on what does
@@ -342,20 +356,74 @@ services:
 
 This is all the setup we need to do. Now, let's play with it!
 
-
-
-> **TASK 7**
+> **TASK 5**
 >
-> do this and that
+> Run the `docker-compose` setup **in background** (extra: what happen when
+> you don't add the `-d` flag?). Check the status and the containers names with
+> `docker-compose ps`. What are its states and container names?
+>
+> What would be the command to attach to a terminal?
 
+Once the containers opened, we can check if everything works fine.
 
+> **EXERCISE 7**
+> 
+> Open another terminal with 2 tabs (in bash you can create a tab with 
+> *Ctrl+Shift+T*) and attach a container per tab. You can check that the
+> bash prompt is different for each container.
+> 
+> Create a different file in each node with `thouch`.
+
+The last task of this section will be to restart a stopped container.
+
+> **TASK 6**
+> 
+> Stop a container by exiting its shell. Does it appear now in `docker ps`?
+> And in `docker-compose ps`? Do we have further info?
+> 
+> Restart only that container, and
+> attach to it again. Does the file still exist?
+> 
+> What would happen if instead of restarting, you stop all containers with
+> `docker-compose down` and restart them? You can verify your answer by trying
+> it.
 
 ## Docker networking
+
+Docker has a very complex but easy-to-understand network system in order to
+permit containers to communicate with the outer world.
 
 <!--
 - check ip a and ip route for docker0 interface.
 
 docker network inspect
+
+- Run ip a and ip route on the host machine. Did Docker add something?
+
+- Run ip a on the host machine and try to ping each other.
+- Does the docker machine has internet access?
+- An error appears? This file uses overlay networks, remember to init docker swarn.
+- On every node, run ip a and note down the adresses and interfaces.
+- Check that the adresses match with what you found in docker network
+  inspect.
+- Check if node1 has internet access with ping. And node3? Can node1 
+  reach node2? And node3?.
+- Now that you know the network architecture, with only changing the
+  ip forwarding flag and the routing tables, configure the network so that every node can reach every node. (!)
+- Route cost new architecture.
+- Setup nat in a node.
+- Tcpdump
+
+
+references
+https://docs.docker.com/engine/reference/builder/
+https://docs.docker.com/compose/compose-file/compose-file-v3/
+
+check what to do with dns
+docker-compose network ipam driver
+docker-compose restart auto.
+https://docs.docker.com/compose/compose-file/compose-file-v3/#sysctls
+try to change ip for a driver
 -->
 
 ## A complete exercise

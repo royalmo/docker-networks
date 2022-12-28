@@ -44,7 +44,6 @@ services:
     stdin_open: true
     networks:
       - net1
-      - docker0
   node2:
     image: royalmo/docker-networks
     hostname: node2
@@ -70,5 +69,3 @@ networks:
   net2:
     driver: overlay
     internal: true
-  docker0:
-    external: true
