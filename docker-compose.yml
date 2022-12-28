@@ -33,22 +33,22 @@
 ---
 version: "3.5"
 
-container_name: docker_networks
+#container_name: docker_networks
 
 services:
   node1:
     image: royalmo/docker-networks
     hostname: node1
-    name: node1
+    #name: node1
     tty: true
     stdin_open: true
     networks:
       - net1
-      - bridge
+      - docker0
   node2:
     image: royalmo/docker-networks
     hostname: node2
-    name: node2
+    #name: node2
     tty: true
     stdin_open: true
     networks:
@@ -57,7 +57,7 @@ services:
   node3:
     image: royalmo/docker-networks
     hostname: node3
-    name: node3
+    #name: node3
     tty: true
     stdin_open: true
     networks:
@@ -70,3 +70,5 @@ networks:
   net2:
     driver: overlay
     internal: true
+  docker0:
+    external: true

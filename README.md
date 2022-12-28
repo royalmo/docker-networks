@@ -275,11 +275,66 @@ that to happen? Why?
 
 ---
 
+It will be painful to install everything everytime we restart our container.
+That's why we can create *Dockerfiles* that build an Ubuntu (or whatever) image
+but with added applications. In fact, `ubuntu` is an image that sits on top of
+the Docker's kernel (a *special* Linux kernel).
 
+To make your life easier, an image has been already prepared for you. It's
+called
+[royalmo/docker-networks](https://hub.docker.com/r/royalmo/docker-networks).
+You can find it's Dockerfile
+[in this repository](https://github.com/royalmo/docker-networks), and it may be
+recommended to read it in order to understand what contains the image, but it
+isn't not mandatory.
 
+---
 
+**TASK 4** Run the `royalmo/docker-networks` image, and check which of the
+commands that didn't work in the first task now work. Do you have all the needed
+tools to configure the network?
+
+---
 
 ## What is docker-compose?
+
+Docker-compose is an extension to the docker environment that makes it easier to
+manage multiple containers at once, and the connections between them. In our
+case, we will use it to create multiple containers at once, and to connect them
+as we wish.
+
+### Basic commands
+
+The `docker-compose` command will work *only* if it's executed in a folder where
+a file named `docker-compose.yml` exists. We will not talk too much on what does
+this file need, but rather on how to use it.
+
+- `docker-compose up [-d]` will build images and run all containers. Use `-d`
+  if some containers are interactive. This way it will run in background and you
+  will be able to attatch to the terminals later.
+
+- `docker-compose down` will stop and delete all containers.
+
+- `docker-compose ps` will show the state of the containers created. Please note
+  that this command does a different thing than `docker ps`: *docker-compose*
+  displays the services of the current `docker-compose.yml` (if they're up), and
+  *docker* will show only the running containers.
+
+- `docker attach <container_name>` will attach to the terminal, if possible, of
+  the given container name. `<container_name>` must exist in `docker ps`.
+
+- `docker-compose restart <service_name>` will restart a single service that may
+  be stopped in `docker-compose ps`. A service can be stopped due to an error,
+  the user exiting the shell, or with `docker stop`.
+
+- If you found a *image not found error* when you run `docker-compose up`, it
+  will probably be because you didn't run `docker-compose down`.
+  **A docker-compose file can not be run multiple times.** If nothing is
+  displayed in `docker-compose ps`, you're good to run *up*.
+
+### Practical example
+
+To 
 
 ## Basic Docker commands
 
