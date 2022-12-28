@@ -75,12 +75,10 @@ $ sudo apt-get install docker docker-compose
 If you installed it via *apt*, you may not have the Desktop interface, but
 **in this tutorial we will only use the CLI** (*Command-Line Interface*).
 
----
-
-**EXERCISE 1** Install docker and docker-compose in your system. Note that
-docker-compose is included in the Docker Desktop application.
-
----
+> **EXERCISE 1**
+> 
+> Install docker and docker-compose in your system. Note that
+> docker-compose is included in the Docker Desktop application.
 
 Once installed, and before you continue with this lab session, check that you
 have everything installed. Here is what you should look for (Note that docker needs the client and the server packages to work correctly).
@@ -102,11 +100,9 @@ docker-compose version 1.17.1, build unknown
 Versions may change as time goes by, but as long as the CLI APIs don't change,
 this tutorial should work correctly.
 
----
-
-**EXERCISE 2** Check that your Docker installation was sucessful.
-
----
+> **EXERCISE 2**
+> 
+> Check that your Docker installation was sucessful.
 
 ### Docker Hub Account
 
@@ -119,12 +115,10 @@ Creating a Docker Hub account is the first step for getting more into Docker.
 It's free, and will let you access more features (that aren't needed for this
 lab session).
 
----
-
-**EXERCISE 3** (*Optional*) Create a Docker Hub profile and log in to your CLI
-using `docker login -u <username>`.
-
----
+> **EXERCISE 3** (*Optional*)
+> 
+> Create a Docker Hub profile and log in to your CLI
+> using `docker login -u <username>`.
 
 ## What is Docker?
 
@@ -205,13 +199,11 @@ documentation.
 
 Now that you have some knowleadge about Docker, let's play a little bit with it.
 
----
-
-**EXERCISE 4** Run `docker run -it ubuntu`. The container's bash prompt will be
-displayed over the current terminal. In another terminal run `docker ps` to
-check the state of that terminal.
-
----
+> **EXERCISE 4**
+> 
+> Run `docker run -it ubuntu`. The container's bash prompt will be
+> displayed over the current terminal. In another terminal run `docker ps` to
+> check the state of that terminal.
 
 As you can see, the `ubuntu` image ([_/ubuntu](https://hub.docker.com/_/ubuntu))
 contains a basic ubuntu distribution (the version could be speficied i.e.
@@ -221,59 +213,51 @@ the essential programs permits a lightweigth image and faster boot times.
 You can see that we are in another machine because the terminal prompt cas a
 different host machine (remember: `user_name@computer_name`).
 
----
-
-**TASK 1** In that container, check which commands do work properly:
-- `emacs test.txt`
-- `echo hola`
-- `nano test.txt`
-- `vi test.txt`
-- `ping google.com`
-- `ip a`
-- `sudo echo hola`
-
-Did some of the results surprised you? Will it be able to perform tasks with
-these applications?
-
----
+> **TASK 1**
+> 
+> In that container, check which commands do work properly:
+> - `emacs test.txt`
+> - `echo hola`
+> - `nano test.txt`
+> - `vi test.txt`
+> - `ping google.com`
+> - `ip a`
+> - `sudo echo hola`
+> 
+> Did some of the results surprised you? Will it be able to perform tasks with
+> these applications?
 
 As you may imagine, we need to install some packages to run our applications.
 For example, if we want to virtualize our Python script, we will need to install
 it.
 
----
-
-**EXERCISE 5** Run `apt list` and check if the nano package is listed blow.
-Remember that this list contains all the installable and installed packages.
-
----
+> **EXERCISE 5**
+> 
+> Run `apt list` and check if the nano package is listed blow.
+> Remember that this list contains all the installable and installed packages.
 
 The basic Ubuntu image comes with the smallest package list possible, again, to
 use less resources. But in order to install a package, we need to add that entry
 to the package list. Do you remember how we update the package list?
 
----
-
-**TASK 2** Try to install nano (`apt install nano`). Did it work? Update the
-package list with `apt update`. Once this done, check `apt list`. Do you see it
-now?
-
-Install it and try the nano command. Did it work?
-
----
+> **TASK 2**
+> 
+> Try to install nano (`apt install nano`). Did it work? Update the
+> package list with `apt update`. Once this done, check `apt list`. Do you see
+> it now?
+> 
+> Install it and try the nano command. Did it work?
 
 Now we will verify the persistance of a container.
 
----
-
-**TASK 3** Stop the current container by exiting its bash terminal. Check
-that nothing appears in `docker ps`, but the *Ubuntu* image still appears in
-`docker image ls`.
-
-Run the container again, and check if `nano` is still installed. Did you expect
-that to happen? Why?
-
----
+> **TASK 3**
+> 
+> Stop the current container by exiting its bash terminal. Check
+> that nothing appears in `docker ps`, but the *Ubuntu* image still appears in
+> `docker image ls`.
+> 
+> Run the container again, and check if `nano` is still installed. Did you expect
+> that to happen? Why?
 
 It will be painful to install everything everytime we restart our container.
 That's why we can create *Dockerfiles* that build an Ubuntu (or whatever) image
@@ -288,13 +272,11 @@ You can find it's Dockerfile
 recommended to read it in order to understand what contains the image, but it
 isn't not mandatory.
 
----
-
-**TASK 4** Run the `royalmo/docker-networks` image, and check which of the
-commands that didn't work in the first task now work. Do you have all the needed
-tools to configure the network?
-
----
+> **TASK 4**
+> 
+> Run the `royalmo/docker-networks` image, and check which of the
+> commands that didn't work in the first task now work. Do you have all the
+> needed tools to configure the network?
 
 ## What is docker-compose?
 
@@ -353,12 +335,10 @@ services:
     stdin_open: true
 ```
 
----
-
-**EXERCISE 6** Create a folder `test` and a file inside of it
-`docker-compose.yml` with the text provided above.
-
----
+> **EXERCISE 6**
+> 
+> Create a folder `test` and a file inside of it
+> `docker-compose.yml` with the text provided above.
 
 This is all the setup we need to do. Now, let's play with it!
 
