@@ -68,7 +68,7 @@ You can follow the updated installation tutorial at
 Follow the steps to install Docker Desktop on your machine. If you use
 GNU/Linux, you simply need to install it as every aplication:
 
-```sh
+```shell
 $ sudo apt-get install docker docker-compose
 ```
 
@@ -85,7 +85,7 @@ docker-compose is included in the Docker Desktop application.
 Once installed, and before you continue with this lab session, check that you
 have everything installed. Here is what you should look for (Note that docker needs the client and the server packages to work correctly).
 
-```sh
+```shell
 $ docker version
 Client: [...]
  Version: 20.10.22
@@ -334,9 +334,41 @@ this file need, but rather on how to use it.
 
 ### Practical example
 
-To 
+To sum up this section, let's practice a little bit. We will work with a basic
+(but not minimal) `docker-compose.yml` that will contain this text:
 
-## Basic Docker commands
+```yml
+version: "3.5"
+
+services:
+  node1:
+    image: royalmo/docker-networks
+    hostname: node1
+    tty: true
+    stdin_open: true
+  node2:
+    image: ubuntu:22.04
+    hostname: node2
+    tty: true
+    stdin_open: true
+```
+
+---
+
+**EXERCISE 6** Create a folder `test` and a file inside of it
+`docker-compose.yml` with the text provided above.
+
+---
+
+This is all the setup we need to do. Now, let's play with it!
+
+
+
+> **TASK 7**
+>
+> do this and that
+
+
 
 ## Docker networking
 
@@ -345,5 +377,7 @@ To
 
 docker network inspect
 -->
+
+## A complete exercise
 
 ## More information
