@@ -44,6 +44,9 @@ EPSEM (UPC Manresa). You can check more content
   - [docker-compose commands](#docker-compose-commands)
   - [Practical example](#practical-example)
 - [Basic Docker commands](#basic-docker-commands)
+  - [Network types](#network-types)
+  - [Default network setup](#default-network-setup)
+  - [Managing docker networks](#managing-docker-networks)
 - [Docker networking](#docker-networking)
 - [More information](#more-information)
 
@@ -410,23 +413,71 @@ our host machine, they will have internet access.
 > check the *POSTROUTING* section). Do you see something that could be doing
 > a NAT router for the Docker containers?
 
+### Network types
+
 The bridge network type is only one of the four types that Docker has. Here you
 have a small description of every type:
 
-- **BRIDGE**:
+- **BRIDGE**: This is the most common network type, and the default for every
+  new container. Every new network is simply a new sub-range of IP addresses 
+  inside the default `127.0.0.0/8` sub-range. Of course, the adresses can be
+  manually set. The bridge network also connects the containers with the host
+  machine, as it also has an IP (which is normally the gateway).
 
-- **HOST**:
+- **HOST**: The *host* network simply runs the container with the network of
+  the host. This means that it has the same IPs and routes. It's like we were
+  running the application on the host machine, but the libraries and packages
+  are isolated.
 
-- **NONE**:
+- **NONE**: This type of Docker network specifies that a container must not have
+  any network attached into it. This can become very useful to protect our
+  applications, so they don't have any external connections. We haven't
+  mentionned it in this document, but Docker provides other inter-container
+  communication methods, so we would still be able to control it.
 
-- **OVERLAY**:
+- **OVERLAY**: This last network type is a little bit special. A swarm network
+  is a "virtual network" that **is independant of the physical devices**. This
+  means, that multiple devices can, together, have a single overlay network.
+  This method becomes very useful when using distributed servers, and can be
+  compared to [Kubernetes](https://kubernetes.io/). By default, this networks
+  are allocated in the `10.0.0.0/8` sub-range.
+
+  We will just use this network type for educational purposes in a non-standard
+  way, as we will have multiple overlay networks in a single physical computer.
+  To be able to create overlay networks in this edge case, we need to initialize
+  a special Docker feature: *swarm*. We will not get into what is swarm, don't
+  worry!
+
+- **MACVLAN**: The *macvlan* network creates a new connection to the host
+  computer's main network. As this last sentence wasn't easy to understand,
+  let's see an example. But don't worry, we won't see this in the exercises and
+  tasks.
+
+  Imagine your laptop is connected to the internet through WiFi (or Ethernet)
+  with the IPv4 `192.168.1.5`. If a new container is attached to the *host*
+  network, Docker will "try to connect a new device to your router", so that,
+  for example, the new container's IPv4 address is `192.158.1.7`. You can set it
+  up to use DHCP or a manual configuration.
 
 > **EXERCISE 8**
 > 
 > Run `docker network ls` to see the default docker networks and its names.
 > When a new network is created, you will see it here.
 
-Docker sets up each container's network interfaces and adresses by default.
+### Default network setup
+
+As in a normal case we don't need any complex networking, Docker does a lot of
+default things for us. For example, when a network is created, an IP range is
+assigned, and when containers are added to it, an IP is automaticly assigned.
+Imagine how painful will it be to always connect to the network (with a
+different IP) everytime you start a new container!
+
+Docker provides a feature to **inspect a network**. This can help us when
+debugging, and will show us relevant information. The magic command is
+`docker network inspect <network_name>`. This will result in a JSON object being
+printed in our terminal (we could also save it to a file for better reading).
+It will contain the IP range, the connected devices and its IPs, and other
+metadata.
 
 > **TASK 8**
 > 
@@ -434,7 +485,14 @@ Docker sets up each container's network interfaces and adresses by default.
 > available and note down each node's IP adress. Verify your anwsers by running
 > `ip a` on every node.
 
-docker sets up routes by default
+Docker also sets up the routes to all neighbours at the start of every new
+container. This means that, if two containers are on the same network, they
+will be able to ping eachother without prior configuration.
+
+But that's not all, Docker also provides a "DNS server", so you can put the
+container name instead of its IP address, and it will replace it. However,
+**this feature may not work if we change some network settings on-the-go**
+(and surprise, this is what we will do!).
 
 > **TASK 9**
 > 
@@ -442,17 +500,63 @@ docker sets up routes by default
 > communicate with the host machine? Which IP must they use to reach the host
 > machine? Can all nodes reach Internet (i.e. google.com)?
 > 
-> Verify your answers by running the `ping` command.
+> Verify your answers by running the `ping` command. You can use the container's
+> name instead of its IPv4.
 
-port forwarding
+If you look to some Docker tutorials, you may see that the only network-related
+thing is to **expose a port**. Now that we know how docker connects each
+container, what does this do? The answer is really simple: it adds a rule to
+the host's *iptables*.
+
+For example, "bind any inbound packets comming from WiFi and port 80 to the
+docker container with IP `X` and the port 3000". As you can imagine, we could
+do this by ourselves, but Docker does it for us.
+
+> **EXERCISE 9**
+> 
+> Check the NAT table in *iptables* (same command as before). Save the output.
+> 
+> Now run `docker run -it -p 100:3000 ubuntu`, and in another terminal check the
+> *iptables* again.
+> 
+> Compare both outputs. Do you see somewhere a new port-forwarding
+> rule? Can you imagine what does the `-p` flag do, without reading the
+> documentation?
+> 
+> Extra: add the conclusions of this exercise in the report.
+
+### Managing docker networks
+
+A good way to learn all the network stuff is to play with it. For this, you will
+need some new docker commands. Here are some examples that you may need:
+
+- `docker network create -d bridge --subnet 127.0.56.0/24 new_network_name` will
+  create a new network of type *bridge* and the specified subnet and name.
+
+- `docker run -it --network new_network_name royalmo/docker-networks` will run
+  an image in a container with a speficied network.
+
+If you need to create a network with more options, check out this [reference
+manual](https://docs.docker.com/engine/reference/commandline/network_create/)
 
 > **TASK 10**
 > 
-> Will a computer on the same LAN as the host machine have access to the
-> containers? If so, under which circumstances? Is this implementation secure
-> and useful at the same time?
-
-dns
+> Imagine that we have a host computer (A) and a computer connected to the same
+> LAN than the host (B). 
+> - Port forwarding on A host machine is enabled. You did this in previous lab
+>   sessions, do you remember how to do it?
+> - The bridge network in A's IP range is `10.250.45.0/24`.
+> - The host (A) has a single container connected to that bridge network.
+> - A and B must be able to ping eachother, this means that this experiment may
+>   not work with the University's WiFi, use your mobile phone as a hotspot
+>   instead.
+> 
+> Under which circumstances can B reach A's containers? Could this be a security
+> problem? How could we fix it?
+> 
+> Verify that your answers are correct and explain how have you done it or why
+> it can't be done. If you don't have access to a second computer, justify well
+> your previous answers and explain what would you try to verify it.
 
 ## A complete exercise
 
