@@ -536,6 +536,12 @@ need some new docker commands. Here are some examples that you may need:
 - `docker run -it --network new_network_name royalmo/docker-networks` will run
   an image in a container with a speficied network.
 
+As you can see, Docker asks us to specify the subnet of a network. With a
+physical Switch, this setup doesn't need to be done, but as we are
+working in a virtualized environment, we need to add this extra information.
+It's done this way so Docker can assign IPs automaticly, and to add an extra
+security barrier.
+
 If you need to create a network with more options, check out this [reference
 manual](https://docs.docker.com/engine/reference/commandline/network_create/)
 
@@ -560,32 +566,65 @@ manual](https://docs.docker.com/engine/reference/commandline/network_create/)
 
 ## A complete exercise
 
-<!--
+Now that you know the essentials about docker, docker-compose and docker
+networking, its time to apply it to simulate a real-life network.
 
-- An error appears? This file uses overlay networks, remember to init docker swarn.
-- On every node, run ip a and note down the adresses and interfaces.
-- Check that the adresses match with what you found in docker network
-  inspect.
-- Check if node1 has internet access with ping. And node3? Can node1 
-  reach node2? And node3?.
-- Now that you know the network architecture, with only changing the
-  ip forwarding flag and the routing tables, configure the network so that every node can reach every node. (!)
-- Route cost new architecture.
-- Setup nat in a node.
-- Tcpdump
+> **EXERCISE 10**
+> 
+> Download the docker-compose file and run it. This file will need to create
+> overlay networks, so remember to initialize them the first time only with
+> `docker swarm init`.
+> 
+> Once everything is up and running, attatch to every node. Remember to use
+> bash's tabs or another fancy terminal for ubuntu like *tilix*.
 
+> **TASK 11**
+> 
+> Fill the graph with the subnets, container's IPs and container interface's
+> names. That way, you will have all the names and IP needed at a single place.
+> 
+> Add the updated graph to the report.
 
-references
-https://docs.docker.com/engine/reference/builder/
-https://docs.docker.com/compose/compose-file/compose-file-v3/
+> **EXERCISE 11**
+> 
+> Check if *node1* has internet access (with a ping to google.com). Now check it
+> for any other node. Try also to ping a neighbour, and a neighbour of a
+> neighbour.
 
-check what to do with dns
-docker-compose network ipam driver
-docker-compose restart auto.
-https://docs.docker.com/compose/compose-file/compose-file-v3/#sysctls
-try to change ip for a driver
--->
+> **TASK 12**
+> 
+> By only changing the packet forwarding bit and the routing tables of every
+> node (and maybe the host?), make that every node can communicate to every node
+> **and** has internet access.
+> 
+> Explain the criteria you used to set up the routes (i.e. why did you chose to
+> send packets through that way and not another).
+> 
+> You can check the results by repeating *Exercise 11*. Run also *tcpdump* on
+> some nodes to check that the packets are going through the desired route.
 
-
+> **TASK 13** (*Optional*)
+> 
+> Set up the node2 as a NAT router. Re-evaluate the routes (now some nodes
+> won't be able to reach other nodes directly).
+> 
+> Verify that all works as expected by looking at ports and IP adresses in
+> *tcpdump* output of the correct nodes.
 
 ## More information
+
+If you wish to understand the files and commands used in this document,
+you can check the official documentation, or look for some tutorials:
+
+- [Dockerfile manual reference](https://docs.docker.com/engine/reference/builder/)
+
+- [docker-compose.yml manual reference](
+https://docs.docker.com/compose/compose-file/compose-file-v3/)
+
+As you can see, all of the settings can be done in a Dockerfile. This means
+that we could create a *docker-compose* file with the correct images, such that
+when we run `docker-compose up`, it starts all the nodes **and** sets up the
+routes automaticly.
+
+But that is too much for a lab session, do it on your own and only if you
+want! ;)
