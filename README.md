@@ -569,14 +569,28 @@ manual](https://docs.docker.com/engine/reference/commandline/network_create/)
 Now that you know the essentials about docker, docker-compose and docker
 networking, its time to apply it to simulate a real-life network.
 
+A `docker-compose.yml` file has been prepared just for you. You don't need to
+understand what's inside of it, but now that you know a lot about Docker it
+could be an interesting exercise. You can see the file in this lab session's
+[repository](https://github.com/royalmo/docker-networks) or in
+[this direct link](https://raw.githubusercontent.com/royalmo/docker-networks/main/docker-compose.yml)
+
 > **EXERCISE 10**
 > 
-> Download the docker-compose file and run it. This file will need to create
-> overlay networks, so remember to initialize them the first time only with
-> `docker swarm init`.
+> Download the docker-compose file in a new folder called `docker_networks`
+> and run it. This file will need to create overlay networks, so remember to
+> initialize them the first time only with `docker swarm init`.
 > 
 > Once everything is up and running, attatch to every node. Remember to use
 > bash's tabs or another fancy terminal for ubuntu like *tilix*.
+
+The nodes are connected with overlay networks. To prevent some headaches, a
+schema is provided to you:
+
+TODO add Schema
+
+In the repository you will find a `.gv` file with the source code of this
+schema. You will find it useful for the next task.
 
 > **TASK 11**
 > 
@@ -585,11 +599,21 @@ networking, its time to apply it to simulate a real-life network.
 > 
 > Add the updated graph to the report.
 
+Now that we are familiarized with our node network, let's check its initial
+state.
+
 > **EXERCISE 11**
 > 
 > Check if *node1* has internet access (with a ping to google.com). Now check it
 > for any other node. Try also to ping a neighbour, and a neighbour of a
 > neighbour.
+
+As you can see, there is a lot to do. But as we did this in previous lab
+sessions, it should be done faster than expected.
+
+However, you can see that there are multiple ways to reach some nodes. Be
+careful with how you set up some routes, you may end up sending the packets
+into an infinite loop (and loose them due to TTL)!
 
 > **TASK 12**
 > 
@@ -602,6 +626,12 @@ networking, its time to apply it to simulate a real-life network.
 > 
 > You can check the results by repeating *Exercise 11*. Run also *tcpdump* on
 > some nodes to check that the packets are going through the desired route.
+
+If you finished the last task and all worked, congratulations! You finished this
+lab session and learned something (hopefully).
+
+For those that didn't have enough, an extra task has been prepared for you.
+As with the *Task 12*, it's something you did in other lab sessions. Have fun!
 
 > **TASK 13** (*Optional*)
 > 
