@@ -36,7 +36,7 @@ LABEL version="1.1"
 # Here come the commands nedded to install everything we need.
 # As each line can be cached, it's preferable to install one package per line.
 RUN apt-get update -y
-RUN apt-get install -y apt-utils iproute2 iputils-ping iptables
+RUN apt-get install -y apt-utils iproute2 iputils-ping iptables tcpdump nano
 
 # This is the command that will be run AFTER the installation:
 # - Commands starting with RUN are executed in `docker build`
