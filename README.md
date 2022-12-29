@@ -391,17 +391,73 @@ The last task of this section will be to restart a stopped container.
 ## Docker networking
 
 Docker has a very complex but easy-to-understand network system in order to
-permit containers to communicate with the outer world.
+permit containers to communicate with the outer world. When installed, it
+creates it's own _isolated environment_.
+
+The main and default Docker network is called `bridge`, and as it name tells,
+it acts like a bridge between the containers and the host. New containers are
+assigned with that address range. This means that, if we enable a NAT router on
+our host machine, they will have internet access.
+
+> **TASK 7**
+> 
+> On your host machine, run `ip a` and `ip routes`. You will see that Docker
+> added some devices during its installation. What IP ranges do they use?
+> Does your host machine know how to go to them (i.e. do they have it's own
+> route entry)?
+> 
+> Now check the current *POSTROUTING* table (`sudo iptables -Lv -t nat`, and
+> check the *POSTROUTING* section). Do you see something that could be doing
+> a NAT router for the Docker containers?
+
+The bridge network type is only one of the four types that Docker has. Here you
+have a small description of every type:
+
+- **BRIDGE**:
+
+- **HOST**:
+
+- **NONE**:
+
+- **OVERLAY**:
+
+> **EXERCISE 8**
+> 
+> Run `docker network ls` to see the default docker networks and its names.
+> When a new network is created, you will see it here.
+
+Docker sets up each container's network interfaces and adresses by default.
+
+> **TASK 8**
+> 
+> With the compose file from the previous section running, inspect all networks
+> available and note down each node's IP adress. Verify your anwsers by running
+> `ip a` on every node.
+
+docker sets up routes by default
+
+> **TASK 9**
+> 
+> Check with `ip route` if nodes can communicate to each other. Can they also
+> communicate with the host machine? Which IP must they use to reach the host
+> machine? Can all nodes reach Internet (i.e. google.com)?
+> 
+> Verify your answers by running the `ping` command.
+
+port forwarding
+
+> **TASK 10**
+> 
+> Will a computer on the same LAN as the host machine have access to the
+> containers? If so, under which circumstances? Is this implementation secure
+> and useful at the same time?
+
+dns
+
+## A complete exercise
 
 <!--
-- check ip a and ip route for docker0 interface.
 
-docker network inspect
-
-- Run ip a and ip route on the host machine. Did Docker add something?
-
-- Run ip a on the host machine and try to ping each other.
-- Does the docker machine has internet access?
 - An error appears? This file uses overlay networks, remember to init docker swarn.
 - On every node, run ip a and note down the adresses and interfaces.
 - Check that the adresses match with what you found in docker network
@@ -426,6 +482,6 @@ https://docs.docker.com/compose/compose-file/compose-file-v3/#sysctls
 try to change ip for a driver
 -->
 
-## A complete exercise
+
 
 ## More information
