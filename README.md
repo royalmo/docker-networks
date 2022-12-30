@@ -36,14 +36,14 @@ EPSEM (UPC Manresa). You can check more content
   - [Docker Hub account](#docker-hub-account)
 - [What is Docker?](#what-is-docker)
   - [The initial problem](#the-initial-problem)
-  - [Virtualising applications](#virtualising-applications)
+  - [Virtualizing applications](#virtualizing-applications)
   - [Terminology](#terminology)
   - [Basic commands](#basic-commands)
   - [Exercises and tasks](#exercises-and-tasks)
 - [What is docker-compose?](#what-is-docker-compose)
   - [docker-compose commands](#docker-compose-commands)
   - [Practical example](#practical-example)
-- [Basic Docker commands](#basic-docker-commands)
+- [Docker networking](#docker-networking)
   - [Network types](#network-types)
   - [Default network setup](#default-network-setup)
   - [Managing docker networks](#managing-docker-networks)
@@ -78,7 +78,7 @@ tested on other Systems.
 You can follow the updated installation tutorial at
 [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/).
 Follow the steps to install Docker Desktop on your machine. If you use
-GNU/Linux, you simply need to install it as every aplication:
+GNU/Linux, you simply need to install it as every application:
 
 ```shell
 $ sudo apt-get install docker docker-compose
@@ -115,7 +115,7 @@ this tutorial should work correctly.
 
 > **EXERCISE 2**
 > 
-> Check that your Docker installation was sucessful.
+> Check that your Docker installation was successful.
 
 ### Docker Hub Account
 
@@ -139,11 +139,11 @@ The best way to define what is Docker, is to present the reason why it exists.
 
 ### The initial problem
 
-Let's supose the case of a computer that needs to run 5 different applications.
+Let's suppose the case of a computer that needs to run 5 different applications.
 
 Each application needs its dependencies, and there may be incompatibilities
 between the versions required for each app. One solution, using only one
-physical machine, is to create 5 **virtual machines** and run one applicaction
+physical machine, is to create 5 **virtual machines** and run one application
 in every machine. That way, they run in a *isolated* world, where they have
 their own dependencies and (maybe) different Kernel and OS.
 
@@ -153,14 +153,14 @@ mostly, **the resources of the physical machine would need to be shared out in
 a fixed size**, meaning that at some point application 1 wouldn't need all its
 resources and application 2 wouldn't keep up with the given resources.
 
-### Virtualising applications
+### Virtualizing applications
 
 Here's where Docker comes into our rescue. There're a lot of features that the
 application doesn't need to run (i.e. a Desktop environment). It is possible to
 create a "virtual machine" with just the necessary libraries for a desired
 application. This will reduce resources and boot and shutdown times.
 
-But that's not all: instead of booking some physicall resources, let's run each
+But that's not all: instead of booking some physical resources, let's run each
 application in a host kernel's process. That way, resources can be shared by
 the host machine. And this is what does Docker.
 
@@ -178,12 +178,12 @@ and this document. Let's define them in a few words:
   You have an example of a `Dockerfile` in the repository of the lab session.
 
 - **Image**: As said before, this can be compared to an executable file. When
-  an image is runned, a container is created.
+  an image is run, a container is created.
 
 - **Container**: A container is a kernel process that runs an image. As you can
   imagine, a container can be executed multiple times at once. **The changes
   made in a container will not affect the image.** This means that you can mess
-  arround with a container, that other containers or the image will remain
+  around with a container, that other containers or the image will remain
   intact, and **once you stop that container you will loose all changes**.
 
 ### Basic commands
@@ -195,7 +195,7 @@ Here is a list of the most basic commands that you may need in the first tasks:
 
 - `docker run [-it] <image_name>` will create a container of the image given.
   If the image runs an interactive application (i.e. bash), you will need to
-  spefify it with the `-it` flags.
+  specify it with the `-it` flags.
 
   Docker implemented a feature that, if the image specified doesn't exist in the
   host machine, it will look for it in the Docker Hub repositories, download it
@@ -210,15 +210,15 @@ Here is a list of the most basic commands that you may need in the first tasks:
 - `docker system prune -a` will delete **everything** you created using docker
   commands: networks, images, rules... this can be a good idea if you don't know
   what you just did. There are less heavy ways to fix things, but this will
-  work everytime.
+  work every time.
 
 There are a ton of commands, and some of them will be explained along this
-document, but if you wish to have a cheatsheet you can check the official
+document, but if you wish to have a cheat sheet you can check the official
 documentation.
 
 ### Exercises and tasks
 
-Now that you have some knowleadge about Docker, let's play a little bit with it.
+Now that you have some knowledge about Docker, let's play a little bit with it.
 
 > **EXERCISE 4**
 > 
@@ -227,9 +227,9 @@ Now that you have some knowleadge about Docker, let's play a little bit with it.
 > check the state of that terminal.
 
 As you can see, the `ubuntu` image ([_/ubuntu](https://hub.docker.com/_/ubuntu))
-contains a basic ubuntu distribution (the version could be speficied i.e.
+contains a basic ubuntu distribution (the version could be specified i.e.
 `docker run -it ubuntu:18.04`), **with the most basic commands**. Having only
-the essential programs permits a lightweigth image and faster boot times.
+the essential programs permits a lightweight image and faster boot times.
 
 You can see that we are in another machine because the terminal prompt cas a
 different host machine (remember: `user_name@computer_name`).
@@ -280,7 +280,7 @@ Now we will verify the persistance of a container.
 > Run the container again, and check if `nano` is still installed. Did you expect
 > that to happen? Why?
 
-It will be painful to install everything everytime we restart our container.
+It will be painful to install everything every time we restart our container.
 That's why we can create *Dockerfiles* that build an Ubuntu (or whatever) image
 but with added applications. In fact, `ubuntu` is an image that sits on top of
 the Docker's kernel (a *special* Linux kernel).
@@ -314,7 +314,7 @@ this file need, but rather on how to use it.
 
 - `docker-compose up [-d]` will build images and run all containers. Use `-d`
   if some containers are interactive. This way it will run in background and you
-  will be able to attatch to the terminals later.
+  will be able to attach to the terminals later.
 
 - `docker-compose down` will stop and delete all containers.
 
@@ -379,7 +379,7 @@ Once the containers opened, we can check if everything works fine.
 > *Ctrl+Shift+T*) and attach a container per tab. You can check that the
 > bash prompt is different for each container.
 > 
-> Create a different file in each node with `thouch`.
+> Create a different file in each node with `touch`.
 
 The last task of this section will be to restart a stopped container.
 
@@ -424,7 +424,7 @@ have a small description of every type:
 
 - **BRIDGE**: This is the most common network type, and the default for every
   new container. Every new network is simply a new sub-range of IP addresses 
-  inside the default `127.0.0.0/8` sub-range. Of course, the adresses can be
+  inside the default `127.0.0.0/8` sub-range. Of course, the addresses can be
   manually set. The bridge network also connects the containers with the host
   machine, as it also has an IP (which is normally the gateway).
 
@@ -436,11 +436,11 @@ have a small description of every type:
 - **NONE**: This type of Docker network specifies that a container must not have
   any network attached into it. This can become very useful to protect our
   applications, so they don't have any external connections. We haven't
-  mentionned it in this document, but Docker provides other inter-container
+  mentioned it in this document, but Docker provides other inter-container
   communication methods, so we would still be able to control it.
 
 - **OVERLAY**: This last network type is a little bit special. A swarm network
-  is a "virtual network" that **is independant of the physical devices**. This
+  is a "virtual network" that **is independent of the physical devices**. This
   means, that multiple devices can, together, have a single overlay network.
   This method becomes very useful when using distributed servers, and can be
   compared to [Kubernetes](https://kubernetes.io/). By default, this networks
@@ -472,9 +472,9 @@ have a small description of every type:
 
 As in a normal case we don't need any complex networking, Docker does a lot of
 default things for us. For example, when a network is created, an IP range is
-assigned, and when containers are added to it, an IP is automaticly assigned.
+assigned, and when containers are added to it, an IP is automatically assigned.
 Imagine how painful will it be to always connect to the network (with a
-different IP) everytime you start a new container!
+different IP) every time you start a new container!
 
 Docker provides a feature to **inspect a network**. This can help us when
 debugging, and will show us relevant information. The magic command is
@@ -486,12 +486,12 @@ metadata.
 > **TASK 8**
 > 
 > With the compose file from the previous section running, inspect all networks
-> available and note down each node's IP adress. Verify your anwsers by running
+> available and note down each node's IP address. Verify your answers by running
 > `ip a` on every node.
 
-Docker also sets up the routes to all neighbours at the start of every new
+Docker also sets up the routes to all neighbors at the start of every new
 container. This means that, if two containers are on the same network, they
-will be able to ping eachother without prior configuration.
+will be able to ping each other without prior configuration.
 
 But that's not all, Docker also provides a "DNS server", so you can put the
 container name instead of its IP address, and it will replace it. However,
@@ -512,7 +512,7 @@ thing is to **expose a port**. Now that we know how docker connects each
 container, what does this do? The answer is really simple: it adds a rule to
 the host's *iptables*.
 
-For example, "bind any inbound packets comming from WiFi and port 80 to the
+For example, "bind any inbound packets coming from WiFi and port 80 to the
 docker container with IP `X` and the port 3000". As you can imagine, we could
 do this by ourselves, but Docker does it for us.
 
@@ -538,12 +538,12 @@ need some new docker commands. Here are some examples that you may need:
   create a new network of type *bridge* and the specified subnet and name.
 
 - `docker run -it --network new_network_name royalmo/docker-networks` will run
-  an image in a container with a speficied network.
+  an image in a container with a specified network.
 
 As you can see, Docker asks us to specify the subnet of a network. With a
 physical Switch, this setup doesn't need to be done, but as we are
 working in a virtualized environment, we need to add this extra information.
-It's done this way so Docker can assign IPs automaticly, and to add an extra
+It's done this way so Docker can assign IPs automatically, and to add an extra
 security barrier.
 
 If you need to create a network with more options, check out this [reference
@@ -557,7 +557,7 @@ manual](https://docs.docker.com/engine/reference/commandline/network_create/)
 >   sessions, do you remember how to do it?
 > - The bridge network in A's IP range is `10.250.45.0/24`.
 > - The host (A) has a single container connected to that bridge network.
-> - A and B must be able to ping eachother, this means that this experiment may
+> - A and B must be able to ping each other, this means that this experiment may
 >   not work with the University's WiFi, use your mobile phone as a hotspot
 >   instead.
 > 
@@ -585,7 +585,7 @@ could be an interesting exercise. You can see the file in this lab session's
 > and run it. This file will need to create overlay networks, so remember to
 > initialize them the first time only with `docker swarm init`.
 > 
-> Once everything is up and running, attatch to every node. Remember to use
+> Once everything is up and running, attach to every node. Remember to use
 > bash's tabs or another fancy terminal for ubuntu like *tilix*.
 
 The nodes are connected with overlay networks. To prevent some headaches, a
@@ -601,6 +601,11 @@ schema. You will find it useful for the next task.
 > Fill the graph with the subnets, container's IPs and container interface's
 > names. That way, you will have all the names and IP needed at a single place.
 > 
+> **Warning!** Every time you restart the docker-compose, all addresses, ranges
+> and configurations done on the nodes will be lost. It's recommended to do
+> tasks 11, 12 and 13 as a pack, so you can use the results from the previous
+> tasks. Pick a day you have plenty of time!
+> 
 > Add the updated graph to the report.
 
 Now that we are familiarized with our node network, let's check its initial
@@ -609,8 +614,8 @@ state.
 > **EXERCISE 11**
 > 
 > Check if *node1* has internet access (with a ping to google.com). Now check it
-> for any other node. Try also to ping a neighbour, and a neighbour of a
-> neighbour.
+> for any other node. Try also to ping a neighbor, and a neighbor of a
+> neighbor.
 
 As you can see, there is a lot to do. But as we did this in previous lab
 sessions, it should be done faster than expected.
@@ -642,7 +647,7 @@ As with the *Task 12*, it's something you did in other lab sessions. Have fun!
 > Set up the node2 as a NAT router. Re-evaluate the routes (now some nodes
 > won't be able to reach other nodes directly).
 > 
-> Verify that all works as expected by looking at ports and IP adresses in
+> Verify that all works as expected by looking at ports and IP addresses in
 > *tcpdump* output of the correct nodes.
 
 ## More information
@@ -658,7 +663,7 @@ https://docs.docker.com/compose/compose-file/compose-file-v3/)
 As you can see, all of the settings can be done in a Dockerfile. This means
 that we could create a *docker-compose* file with the correct images, such that
 when we run `docker-compose up`, it starts all the nodes **and** sets up the
-routes automaticly.
+routes automatically.
 
 But that is too much for a lab session, do it on your own and only if you
 want! ;)
