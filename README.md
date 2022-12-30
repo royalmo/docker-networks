@@ -93,7 +93,8 @@ If you installed it via *apt*, you may not have the Desktop interface, but
 > docker-compose is included in the Docker Desktop application.
 
 Once installed, and before you continue with this lab session, check that you
-have everything installed. Here is what you should look for (Note that docker needs the client and the server packages to work correctly).
+have everything installed. Here is what you should look for (Note that docker
+needs the client and the server packages to work correctly).
 
 ```shell
 $ docker version
@@ -180,7 +181,10 @@ and this document. Let's define them in a few words:
   an image is runned, a container is created.
 
 - **Container**: A container is a kernel process that runs an image. As you can
-  imagine, a container can be executed multiple times at once. **The changes made in a container will not affect the image.** This means that you can mess arround with a container, that other containers or the image will remain intact, and **once you stop that container you will loose all changes**.
+  imagine, a container can be executed multiple times at once. **The changes
+  made in a container will not affect the image.** This means that you can mess
+  arround with a container, that other containers or the image will remain
+  intact, and **once you stop that container you will loose all changes**.
 
 ### Basic commands
 
