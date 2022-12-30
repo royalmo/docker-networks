@@ -587,7 +587,7 @@ could be an interesting exercise. You can see the file in this lab session's
 The nodes are connected with overlay networks. To prevent some headaches, a
 schema is provided to you:
 
-TODO add Schema
+![network](https://user-images.githubusercontent.com/49844173/210058483-d91a2f26-a27b-493f-958c-32e7b0f88467.png)
 
 In the repository you will find a `.gv` file with the source code of this
 schema. You will find it useful for the next task.
