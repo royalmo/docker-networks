@@ -1,0 +1,62 @@
+# This file is part of the Docker-Networks' Lab session support files.
+# Copyright (C) 2022-2023 Eric Roy <eric@ericroy.net>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# This graph is a representation of the network system in the lasts tasks
+# of the lab session. Get a PNG image from it with
+# dot -T png network.gv
+
+graph G {
+    nodesep=0.6;
+    // subgraph {
+    //     rank = same; Host;
+    //     rank = same; Node4; Node5; 
+    // }
+
+# Example of how subnets can be speficied
+#   net0 [shape="none" label="net0\nsubnet: 127.0.17.0/24"]
+    net0 [shape="none"]
+    net1 [shape="none"]
+    net2 [shape="none"]
+    net3 [shape="none"]
+    net4 [shape="none"]
+    net5 [shape="none"]
+    net6 [shape="none"]
+
+# Example of how interfaces and IPs can be speficied
+#   Host -- net0 [label="127.0.17.1\ndev: docker0"]
+    Host -- net0
+
+    Node1 -- net0
+    Node1 -- net1
+
+    Node2 -- net1
+    Node2 -- net2
+    Node2 -- net3
+
+    Node3 -- net1
+
+    Node4 -- net2
+    Node4 -- net4
+    Node4 -- net5
+
+    Node5 -- net3
+    Node5 -- net4
+    Node5 -- net6
+
+    Node6 -- net5
+
+    Node7 -- net6
+}
