@@ -38,10 +38,10 @@ EPSEM (UPC Manresa). You can check more content
   - [The initial problem](#the-initial-problem)
   - [Virtualizing applications](#virtualizing-applications)
   - [Terminology](#terminology)
-  - [Basic commands](#basic-commands)
+  - [Basic commands 1](#basic-commands-1)
   - [Exercises and tasks](#exercises-and-tasks)
 - [What is docker-compose?](#what-is-docker-compose)
-  - [docker-compose commands](#docker-compose-commands)
+  - [Basic commands 2](#basic-commands-2)
   - [Practical example](#practical-example)
 - [Docker networking](#docker-networking)
   - [Network types](#network-types)
@@ -186,7 +186,7 @@ and this document. Let's define them in a few words:
   around with a container, that other containers or the image will remain
   intact, and **once you stop that container you will loose all changes**.
 
-### Basic commands
+### Basic commands 1
 
 Here is a list of the most basic commands that you may need in the first tasks:
 
@@ -205,7 +205,7 @@ Here is a list of the most basic commands that you may need in the first tasks:
 - `docker ps` lists the active containers and some information about them.
 
 - `docker image ls` will list all locally saved images. You can remove them to
-  save some memory space.
+  save some disk space.
 
 - `docker system prune -a` will delete **everything** you created using docker
   commands: networks, images, rules... this can be a good idea if you don't know
@@ -306,11 +306,12 @@ manage multiple containers at once, and the connections between them. In our
 case, we will use it to create multiple containers at once, and to connect them
 as we wish.
 
-### docker-compose commands
+### Basic commands 2
 
 The `docker-compose` command will work *only* if it's executed in a folder where
 a file named `docker-compose.yml` exists. We will not talk too much on what
-needs this file, but rather on how to use it.
+needs this file, but rather on how to use it. Here you have a continuation of
+the previous command list.
 
 - `docker-compose up [-d]` will build images and run all containers. Use `-d`
   if some containers are interactive. This way it will run in background and you
