@@ -583,7 +583,8 @@ could be an interesting exercise. You can see the file in this lab session's
 > 
 > Download the docker-compose file in a new folder called `docker_networks`
 > and run it. This file will need to create overlay networks, so remember to
-> initialize them the first time only with `docker swarm init`.
+> initialize them the first time only with `docker swarm init`. Some warnings
+> about swarm may appear while starting everything, don't worry, it's fine.
 > 
 > Once everything is up and running, attach to every node. Remember to use
 > bash's tabs or another fancy terminal for ubuntu like *tilix*.
