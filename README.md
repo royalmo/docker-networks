@@ -121,8 +121,8 @@ this tutorial should work correctly.
 
 [Docker Hub](https://hub.docker.com/) is where Docker images are stored (as
 public or private images). In this lab session we will need to pull some public
-images from there. You should need to create an account in order to pull them,
-but Docker policies could vary in the future.
+images from there. You shouldn't need to create an account in order to pull
+them, but Docker policies could vary in the future.
 
 Creating a Docker Hub account is the first step for getting more into Docker.
 It's free, and will let you access more features (that aren't needed for this
