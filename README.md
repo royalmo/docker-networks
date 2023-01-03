@@ -181,7 +181,7 @@ and this document. Let's define them in a few words:
   an image is run, a container is created.
 
 - **Container**: A container is a kernel process that runs an image. As you can
-  imagine, a container can be executed multiple times at once. **The changes
+  imagine, an image can be executed multiple times at once. **The changes
   made in a container will not affect the image.** This means that you can mess
   around with a container, that other containers or the image will remain
   intact, and **once you stop that container you will loose all changes**.
@@ -231,7 +231,7 @@ contains a basic ubuntu distribution (the version could be specified i.e.
 `docker run -it ubuntu:18.04`), **with the most basic commands**. Having only
 the essential programs permits a lightweight image and faster boot times.
 
-You can see that we are in another machine because the terminal prompt cas a
+You can see that we are in another machine because the terminal prompt has a
 different host machine (remember: `user_name@computer_name`).
 
 > **TASK 1**
@@ -289,7 +289,7 @@ To make your life easier, an image has been already prepared for you. It's
 called
 [royalmo/docker-networks](https://hub.docker.com/r/royalmo/docker-networks).
 You can find it's Dockerfile
-[in this repository](https://github.com/royalmo/docker-networks), and it may be
+[in this repository](https://github.com/royalmo/docker-networks). It may be
 recommended to read it in order to understand what contains the image, but it
 isn't not mandatory.
 
@@ -309,8 +309,8 @@ as we wish.
 ### docker-compose commands
 
 The `docker-compose` command will work *only* if it's executed in a folder where
-a file named `docker-compose.yml` exists. We will not talk too much on what does
-this file need, but rather on how to use it.
+a file named `docker-compose.yml` exists. We will not talk too much on what
+needs this file, but rather on how to use it.
 
 - `docker-compose up [-d]` will build images and run all containers. Use `-d`
   if some containers are interactive. This way it will run in background and you
@@ -330,7 +330,7 @@ this file need, but rather on how to use it.
   be stopped in `docker-compose ps`. A service can be stopped due to an error,
   the user exiting the shell, or with `docker stop`.
 
-- If you found a *image not found error* when you run `docker-compose up`, it
+- If you found an *image not found error* when you run `docker-compose up`, it
   will probably be because you didn't run `docker-compose down`.
   **A docker-compose file can not be run multiple times.** If nothing is
   displayed in `docker-compose ps`, you're good to run *up*.
@@ -419,12 +419,12 @@ our host machine, they will have internet access.
 
 ### Network types
 
-The bridge network type is only one of the four types that Docker has. Here you
+The bridge network type is only one of the five types that Docker has. Here you
 have a small description of every type:
 
 - **BRIDGE**: This is the most common network type, and the default for every
   new container. Every new network is simply a new sub-range of IP addresses 
-  inside the default `127.0.0.0/8` sub-range. Of course, the addresses can be
+  inside the default `127.0.0.0/8` IP range. Of course, the addresses can be
   manually set. The bridge network also connects the containers with the host
   machine, as it also has an IP (which is normally the gateway).
 
@@ -444,7 +444,7 @@ have a small description of every type:
   means, that multiple devices can, together, have a single overlay network.
   This method becomes very useful when using distributed servers, and can be
   compared to [Kubernetes](https://kubernetes.io/). By default, this networks
-  are allocated in the `10.0.0.0/8` sub-range.
+  are allocated in the `10.0.0.0/8` IP range.
 
   We will just use this network type for educational purposes in a non-standard
   way, as we will have multiple overlay networks in a single physical computer.
@@ -458,7 +458,7 @@ have a small description of every type:
   tasks.
 
   Imagine your laptop is connected to the internet through WiFi (or Ethernet)
-  with the IPv4 `192.168.1.5`. If a new container is attached to the *host*
+  with the IPv4 `192.168.1.5`. If a new container is attached to the *macvlan*
   network, Docker will "try to connect a new device to your router", so that,
   for example, the new container's IPv4 address is `192.158.1.7`. You can set it
   up to use DHCP or a manual configuration.
@@ -480,14 +480,14 @@ Docker provides a feature to **inspect a network**. This can help us when
 debugging, and will show us relevant information. The magic command is
 `docker network inspect <network_name>`. This will result in a JSON object being
 printed in our terminal (we could also save it to a file for better reading).
-It will contain the IP range, the connected devices and its IPs, and other
+It will contain the IP range, the connected containers and its IPs, and other
 metadata.
 
 > **TASK 8**
 > 
 > With the compose file from the previous section running, inspect all networks
 > available and note down each node's IP address. Verify your answers by running
-> `ip a` on every node.
+> `ip a` on every container.
 
 Docker also sets up the routes to all neighbors at the start of every new
 container. This means that, if two containers are on the same network, they
@@ -547,7 +547,7 @@ It's done this way so Docker can assign IPs automatically, and to add an extra
 security barrier.
 
 If you need to create a network with more options, check out this [reference
-manual](https://docs.docker.com/engine/reference/commandline/network_create/)
+manual](https://docs.docker.com/engine/reference/commandline/network_create/).
 
 > **TASK 10**
 > 
@@ -649,7 +649,7 @@ As with the *Task 12*, it's something you did in other lab sessions. Have fun!
 > won't be able to reach other nodes directly).
 > 
 > Verify that all works as expected by looking at ports and IP addresses in
-> *tcpdump* output of the correct nodes.
+> *tcpdump*'s output of the correct nodes.
 
 ## More information
 
