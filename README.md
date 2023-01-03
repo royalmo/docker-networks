@@ -103,7 +103,7 @@ Client: [...]
  [...]
 Server: [...]
  Engine:
-  Version: 10.10.22
+  Version: 20.10.22
   [...]
 $ docker-compose version
 docker-compose version 1.17.1, build unknown
