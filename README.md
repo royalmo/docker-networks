@@ -667,3 +667,8 @@ routes automatically.
 
 But that is too much for a lab session, do it on your own and only if you
 want! ;)
+
+### Copyright notice
+
+This project is under the GPL v3 liscence. Please give credit if you wish to use
+it somewhere else. Feel free to ask me before getting in trouble with the law!
