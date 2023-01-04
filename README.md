@@ -292,7 +292,7 @@ called
 You can find it's Dockerfile
 [in this repository](https://github.com/royalmo/docker-networks). It may be
 recommended to read it in order to understand what contains the image, but it
-isn't not mandatory.
+isn't mandatory.
 
 > **TASK 4**
 > 
