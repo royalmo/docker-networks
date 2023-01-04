@@ -24,7 +24,7 @@
 # - Attatch to every node's bash terminal with
 #   `docker attach docker_networks_node1_1` (or any node).
 # - You can exit the node's bash terminal you stop that container.
-#   Restart that only container with `docker_compose restart node1`
+#   Restart that single container with `docker_compose restart node1`
 
 # This file will start multiple containers connected with some educational
 # networks. You can check some diagrams and basic documentation at
@@ -91,6 +91,8 @@ services:
     networks:
       - net6
 
+# If you wish to use bridge networks insead of overlay networks,
+# change the driver of each network and remove the "internal" flag.
 networks:
   net0:
     driver: bridge
