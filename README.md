@@ -42,6 +42,7 @@ EPSEM (UPC Manresa). You can check more content
   - [Exercises and tasks](#exercises-and-tasks)
 - [What is docker-compose?](#what-is-docker-compose)
   - [Basic commands 2](#basic-commands-2)
+  - [Extra: docker attach VS docker exec](#extra-docker-attach-vs-docker-exec)
   - [Practical example](#practical-example)
 - [Docker networking](#docker-networking)
   - [Network types](#network-types)
@@ -327,6 +328,12 @@ the previous command list.
 - `docker attach <container_name>` will attach to the terminal, if possible, of
   the given container name. `<container_name>` must exist in `docker ps`.
 
+- `docker exec <container_name> <command>` will execute a command in a given
+  container. `<container_name>` must exist in `docker ps`.
+  
+  Although not used in this document, it's important to understand the
+  difference with `docker attach`.
+
 - `docker-compose restart <service_name>` will restart a single service that may
   be stopped in `docker-compose ps`. A service can be stopped due to an error,
   the user exiting the shell, or with `docker stop`.
@@ -335,6 +342,37 @@ the previous command list.
   will probably be because you didn't run `docker-compose down`.
   **A docker-compose file can not be run multiple times.** If nothing is
   displayed in `docker-compose ps`, you're good to run *up*.
+
+### Extra: docker attach VS docker exec
+
+In this document we will always use `docker attach`, but let's introduce
+ourselves to the typical _Docker scenario_.
+
+A Docker container will (almost) always be an application doing something. These
+types of applications will normally be servers: web servers, databases, ...
+something that will return a response after an input (normally sent via
+network) is received.
+
+The main application of those containers will be a daemon of that server (a
+process that runs infinitely). In this case, we will clearly see the difference
+between `docker attach` and `docker exec`:
+
+- Imagine we need to access the server console (e.j. a Minecraft server) to
+  ban a player. With `docker attach`, we will attach to the java executable,
+  and communicate with the server. In other words, with `docker attach` we
+  **communicate with the main process**. Note that not all main processes are
+  interactive, thus `docker attach` may not work in every container.
+
+- However, we may need to modify a backup script on that server. For this
+  purpose, we could run `docker exec -it <container_name> bash` and we would
+  land in a bash terminal in that container, as if it was SSH. There we can
+  create, delete, and modify all the files we need. In other words, with
+  `docker exec` we **communicate with the container, not any process**.
+
+In this document, we don't have any server in any container, as we don't need
+them. That's why we placed _bash_ as the main process, thus we can `attach` to
+it instead of `exec` a new _bash_ process. But keep in mind that
+**this isn't the general rule and how Docker is meant to be used**.
 
 ### Practical example
 
@@ -380,7 +418,7 @@ Once the containers opened, we can check if everything works fine.
 > *Ctrl+Shift+T*) and attach a container per tab. You can check that the
 > bash prompt is different for each container.
 > 
-> Create a different file in each node with `touch`.
+> Create a different file in each container with `touch`.
 
 The last task of this section will be to restart a stopped container.
 
@@ -450,8 +488,7 @@ have a small description of every type:
   We will just use this network type for educational purposes in a non-standard
   way, as we will have multiple overlay networks in a single physical computer.
   To be able to create overlay networks in this edge case, we need to initialize
-  a special Docker feature: *swarm*. We will not get into what is swarm, don't
-  worry!
+  a special Docker feature: *swarm*. It's explained in the next section.
 
 - **MACVLAN**: The *macvlan* network creates a new connection to the host
   computer's main network. As this last sentence wasn't easy to understand,
@@ -468,6 +505,24 @@ have a small description of every type:
 > 
 > Run `docker network ls` to see the default docker networks and its names.
 > When a new network is created, you will see it here.
+
+### Extra: docker swarm
+
+To use overlay networks, we need to have _swarm_. It's the Kubernetes of Docker:
+it manages the containers between the different hosts.
+
+For example, if we make a cluster of 2 hosts and 5 containers need to be
+executed between those hosts, _swarm_ will decide where to run each container,
+depending on the resources needed, to make both hosts have approximately the
+same amount of work.
+
+In our case, we only have one host, but we still need to initialize _swarm_, as
+overlay networks work on top of it. As you can imagine, the command to do so
+is `docker swarm init`. You need to do this only once: if you already did this,
+you will get an error saying that _this node is already part of a swarm_.
+
+If you're interested in practicing a little bit with _swarm_, you can check out
+this [tutorial](https://docs.docker.com/engine/swarm/swarm-tutorial/).
 
 ### Default network setup
 
@@ -487,8 +542,8 @@ metadata.
 > **TASK 8**
 > 
 > With the compose file from the previous section running, inspect all networks
-> available and note down each node's IP address. Verify your answers by running
-> `ip a` on every container.
+> available and note down each container's IP address. Verify your answers by
+> running `ip a` on every container.
 
 Docker also sets up the routes to all neighbors at the start of every new
 container. This means that, if two containers are on the same network, they
@@ -501,9 +556,9 @@ container name instead of its IP address, and it will replace it. However,
 
 > **TASK 9**
 > 
-> Check with `ip route` if nodes can communicate to each other. Can they also
-> communicate with the host machine? Which IP must they use to reach the host
-> machine? Can all nodes reach Internet (i.e. google.com)?
+> Check with `ip route` if the containers can communicate to each other. Can
+> they also communicate with the host machine? Which IP must they use to reach
+> the host machine? Can all containers reach Internet (i.e. google.com)?
 > 
 > Verify your answers by running the `ping` command. You can use the container's
 > name instead of its IPv4.
@@ -578,14 +633,38 @@ A `docker-compose.yml` file has been prepared just for you. You don't need to
 understand what's inside of it, but now that you know a lot about Docker it
 could be an interesting exercise. You can see the file in this lab session's
 [repository](https://github.com/royalmo/docker-networks) or in
-[this direct link](https://raw.githubusercontent.com/royalmo/docker-networks/main/docker-compose.yml)
+[this direct link](https://raw.githubusercontent.com/royalmo/docker-networks/main/docker-compose.yml).
+
+From now on, let's consider a *node* a container of our compose file. It will
+simulate a device on our virtual network.
+
+---
+
+**Disclaimer:** this compose file uses overlay networks, that need swarm setup.
+You may find this a little bit overkill, and it is.
+
+If you wish to not use swarm, there's a workaround just for you: you can replace
+all overlay networks with bridges. All will work the same way, but now
+<ins>the host will act as a network superuser</ins>: it will be able to connect
+to every node, and <ins>every node will have Internet access</ins>. However,
+some nodes won't be able to communicate with each other right away.
+
+You will then need to change a little bit the statements of the following tasks.
+You don't need to connect each node to the internet, but you can route all
+_default_ requests through another interface, for example, and check if
+everything works as expected using _tcpdump_.
+
+---
 
 > **EXERCISE 10**
 > 
 > Download the docker-compose file in a new folder called `docker_networks`
-> and run it. This file will need to create overlay networks, so remember to
-> initialize them the first time only with `docker swarm init`. Some warnings
-> about swarm may appear while starting everything, don't worry, it's fine.
+> and run it.
+> 
+> This file will need to create overlay networks, so remember to initialize them
+> the first time only with `docker swarm init`. Some warnings about swarm may
+> appear while starting everything, telling that there aren't more hosts. It
+> should be a problem in a normal case, but it's fine for us.
 > 
 > Once everything is up and running, attach to every node. Remember to use
 > bash's tabs or another fancy terminal for ubuntu like *tilix*.
@@ -672,5 +751,5 @@ want! ;)
 
 ### Copyright notice
 
-This project is under the GPL v3 liscence. Please give credit if you wish to use
+This project is under the GPL v3 license. Please give credit if you wish to use
 it somewhere else. Feel free to ask me before getting in trouble with the law!
