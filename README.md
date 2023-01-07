@@ -34,6 +34,7 @@ EPSEM (UPC Manresa). You can check more content
   - [Submission details](#submission-details)
 - [Docker installation](#docker-installation)
   - [Docker Hub account](#docker-hub-account)
+  - [Post-installation advices](#post-installation-advices)
 - [What is Docker?](#what-is-docker)
   - [The initial problem](#the-initial-problem)
   - [Virtualizing applications](#virtualizing-applications)
@@ -134,6 +135,31 @@ lab session).
 > Create a Docker Hub profile and log in to your CLI
 > using `docker login -u <username>`.
 
+### Post-installation advices
+
+Once everything is installed, you may have encountered a problem:
+**every docker and docker-compose command requires superuser permissions**
+(i.e. `sudo`). Now, you can choose between 3 alternatives:
+
+- You can still use `sudo` in every command. It isn't recommended as it will
+  be painful, but if you're lazy or in a hurry it's still possible.
+
+- You can run a **root terminal** with `sudo -i`, and there, any docker
+  commands won't require that privilege escalation.
+
+- Last but best, you can **add your user into the docker group**. Once this is
+  done, you won't need to run anything with sudo anymore. There's an official
+  tutorial on how to achieve this in
+  [this link](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
+
+  It's highly recommended to follow the tutorial: you will only need to run 3
+  commands and everything will be much easier.
+
+> **EXERCISE 4** (*Optional*)
+> 
+> Set up your docker environment so you don't need to run every command with
+> `sudo`.
+
 ## What is Docker?
 
 The best way to define what is Docker, is to present the reason why it exists.
@@ -221,7 +247,7 @@ documentation.
 
 Now that you have some knowledge about Docker, let's play a little bit with it.
 
-> **EXERCISE 4**
+> **EXERCISE 5**
 > 
 > Run `docker run -it ubuntu`. The container's bash prompt will be
 > displayed over the current terminal. In another terminal run `docker ps` to
@@ -253,7 +279,7 @@ As you may imagine, we need to install some packages to run our applications.
 For example, if we want to virtualize our Python script, we will need to install
 it.
 
-> **EXERCISE 5**
+> **EXERCISE 6**
 > 
 > Run `apt list` and check if the nano package is listed blow.
 > Remember that this list contains all the installable and installed packages.
@@ -395,7 +421,7 @@ services:
     stdin_open: true
 ```
 
-> **EXERCISE 6**
+> **EXERCISE 7**
 > 
 > Create a folder `test` and a file inside of it
 > `docker-compose.yml` with the text provided above.
@@ -412,7 +438,7 @@ This is all the setup we need to do. Now, let's play with it!
 
 Once the containers opened, we can check if everything works fine.
 
-> **EXERCISE 7**
+> **EXERCISE 8**
 > 
 > Open another terminal with 2 tabs (in bash you can create a tab with 
 > *Ctrl+Shift+T*) and attach a container per tab. You can check that the
@@ -452,7 +478,7 @@ our host machine, they will have internet access.
 > Does your host machine know how to go to them (i.e. do they have it's own
 > route entry)?
 > 
-> Now check the current *POSTROUTING* table (`sudo iptables -Lv -t nat`, and
+> Now check the current *POSTROUTING* table (`sudo iptables -vL -t nat`, and
 > check the *POSTROUTING* section). Do you see something that could be doing
 > a NAT router for the Docker containers?
 
@@ -501,7 +527,7 @@ have a small description of every type:
   for example, the new container's IPv4 address is `192.158.1.7`. You can set it
   up to use DHCP or a manual configuration.
 
-> **EXERCISE 8**
+> **EXERCISE 9**
 > 
 > Run `docker network ls` to see the default docker networks and its names.
 > When a new network is created, you will see it here.
@@ -520,6 +546,13 @@ In our case, we only have one host, but we still need to initialize _swarm_, as
 overlay networks work on top of it. As you can imagine, the command to do so
 is `docker swarm init`. You need to do this only once: if you already did this,
 you will get an error saying that _this node is already part of a swarm_.
+
+**Warning:** docker swarm is more strict than your computer: you may have more
+than one IPv4 and IPv6 address in your network interface; it's fine with the
+normal usage of Ubuntu. However, swarm requires **a single address** (you can
+have an IPv4 *and* an IPv6, but not two IPv4), meaning that you may get an error
+if you have more than one. You can specify only one address, but the easiest way
+is to delete that extra one.
 
 If you're interested in practicing a little bit with _swarm_, you can check out
 this [tutorial](https://docs.docker.com/engine/swarm/swarm-tutorial/).
@@ -572,7 +605,7 @@ For example, "bind any inbound packets coming from WiFi and port 80 to the
 docker container with IP `X` and the port 3000". As you can imagine, we could
 do this by ourselves, but Docker does it for us.
 
-> **EXERCISE 9**
+> **EXERCISE 10**
 > 
 > Check the NAT table in *iptables* (same command as before). Save the output.
 > 
@@ -656,7 +689,7 @@ everything works as expected using _tcpdump_.
 
 ---
 
-> **EXERCISE 10**
+> **EXERCISE 11**
 > 
 > Download the docker-compose file in a new folder called `docker_networks`
 > and run it.
@@ -692,7 +725,7 @@ schema. You will find it useful for the next task.
 Now that we are familiarized with our node network, let's check its initial
 state.
 
-> **EXERCISE 11**
+> **EXERCISE 12**
 > 
 > Check if *node1* has internet access (with a ping to google.com). Now check it
 > for any other node. Try also to ping a neighbor, and a neighbor of a
