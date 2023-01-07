@@ -281,9 +281,15 @@ it.
 
 > **EXERCISE 6**
 > 
-> Run `apt list` and check if the nano package is listed blow.
+> Run `apt list` and check if the `nano` package is listed blow.
 > Remember that this list contains all the installable and installed packages.
+> 
 > *Hint: use `grep` to find the nano package faster.*
+> 
+> *Hint 2: using a pipeline you may get a warning. It should affect anything,
+> but you can hide it by suppressing apt's stderr output (`2> /dev/null`).*
+> 
+> To compare, you can check if the `apt` package appears in that list.
 
 The basic Ubuntu image comes with the smallest package list possible, again, to
 use less resources. But in order to install a package, we need to add that entry
