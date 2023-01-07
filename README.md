@@ -283,6 +283,7 @@ it.
 > 
 > Run `apt list` and check if the nano package is listed blow.
 > Remember that this list contains all the installable and installed packages.
+> *Hint: use `grep` to find the nano package faster.*
 
 The basic Ubuntu image comes with the smallest package list possible, again, to
 use less resources. But in order to install a package, we need to add that entry
