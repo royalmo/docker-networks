@@ -47,10 +47,12 @@ EPSEM (UPC Manresa). You can check more content
   - [Practical example](#practical-example)
 - [Docker networking](#docker-networking)
   - [Network types](#network-types)
+  - [Extra: docker swarm](#extra-docker-swarm)
   - [Default network setup](#default-network-setup)
   - [Managing docker networks](#managing-docker-networks)
 - [Docker networking](#docker-networking)
 - [More information](#more-information)
+  - [Copyright notice](#copyright-notice)
 
 ## Introduction
 
@@ -159,6 +161,10 @@ Once everything is installed, you may have encountered a problem:
 > 
 > Set up your docker environment so you don't need to run every command with
 > `sudo`.
+> 
+> If you followed the tutorial but get an error with some `docker.sock` file,
+> run `sudo chmod 666 /var/run/docker.sock`
+> ([+ info](https://adamtheautomator.com/docker-permission-denied/)).
 
 ## What is Docker?
 
@@ -538,6 +544,11 @@ have a small description of every type:
 > 
 > Run `docker network ls` to see the default docker networks and its names.
 > When a new network is created, you will see it here.
+> 
+> **Note:** From now on, you'll be creating (directly or indirectly) a lot of
+> Docker networks, so the output of `docker network ls` can become a nightmare.
+> You will be able to delete all unused networks (except for the default ones)
+> with `docker network prune`.
 
 ### Extra: docker swarm
 
@@ -551,8 +562,9 @@ same amount of work.
 
 In our case, we only have one host, but we still need to initialize _swarm_, as
 overlay networks work on top of it. As you can imagine, the command to do so
-is `docker swarm init`. You need to do this only once: if you already did this,
-you will get an error saying that _this node is already part of a swarm_.
+is `docker swarm init` (don't run it yet). You need to do this only once: if
+you already did this, you will get an error saying that
+_this node is already part of a swarm_.
 
 **Warning:** docker swarm is more strict than your computer: you may have more
 than one IPv4 and IPv6 address in your network interface; it's fine with the
@@ -596,12 +608,15 @@ container name instead of its IP address, and it will replace it. However,
 
 > **TASK 9**
 > 
-> Check with `ip route` if the containers can communicate to each other. Can
-> they also communicate with the host machine? Which IP must they use to reach
-> the host machine? Can all containers reach Internet (i.e. google.com)?
+> Using the `ping` command (you can use the container's name instead of its
+> IPv4), perform these tasks:
 > 
-> Verify your answers by running the `ping` command. You can use the container's
-> name instead of its IPv4.
+> - Check with `ip route` if the containers can communicate to each other.
+> 
+> - Can they also communicate with the host machine? If so, which IP must they
+>   use to reach the host machine?
+> 
+> - Can all containers reach Internet (i.e. google.com)? Did you expect that?
 
 If you look to some Docker tutorials, you may see that the only network-related
 thing is to **expose a port**. Now that we know how docker connects each
@@ -647,8 +662,8 @@ manual](https://docs.docker.com/engine/reference/commandline/network_create/).
 
 > **TASK 10**
 > 
-> Imagine that we have a host computer (A) and a computer connected to the same
-> LAN than the host (B). 
+> Imagine that we have a physical computer (A) and another physical computer
+> (B), both connected to the same LAN.
 > - Port forwarding on A host machine is enabled. You did this in previous lab
 >   sessions, do you remember how to do it?
 > - The bridge network in A's IP range is `10.250.45.0/24`.
