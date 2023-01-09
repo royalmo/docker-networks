@@ -617,6 +617,12 @@ container name instead of its IP address, and it will replace it. However,
 >   use to reach the host machine?
 > 
 > - Can all containers reach Internet (i.e. google.com)? Did you expect that?
+> 
+> - Now set the host's ip_forward flag to 0 (docker sets it to 1 by default)
+>   with `sudo sysctl -w net.ipv4.forward=0`. Can now the containers ping to
+>   google? Did you expect that to happen?
+> 
+> Remember to set the _ip_forward_ bit to 1 at the end of this task.
 
 If you look to some Docker tutorials, you may see that the only network-related
 thing is to **expose a port**. Now that we know how docker connects each
@@ -663,21 +669,17 @@ manual](https://docs.docker.com/engine/reference/commandline/network_create/).
 > **TASK 10**
 > 
 > Imagine that we have a physical computer (A) and another physical computer
-> (B), both connected to the same LAN.
-> - Port forwarding on A host machine is enabled. You did this in previous lab
->   sessions, do you remember how to do it?
-> - The bridge network in A's IP range is `10.250.45.0/24`.
-> - The host (A) has a single container connected to that bridge network.
-> - A and B must be able to ping each other, this means that this experiment may
->   not work with the University's WiFi, use your mobile phone as a hotspot
->   instead.
+> (B), both connected to the same LAN (i. e. (A) and (B) must be able to ping
+> each other).
+> - There is a bridge network in (A) with subnet `10.250.45.0/24`.
+> - (A) has a single container connected to that bridge network.
+> - (B) has the route `10.250.45.0/24 via <A's IP>`
 > 
-> Under which circumstances can B reach A's containers? Could this be a security
-> problem? How could we fix it?
-> 
-> Verify that your answers are correct and explain how have you done it or why
-> it can't be done. If you don't have access to a second computer, justify well
-> your previous answers and explain what would you try to verify it.
+> Try (if possible) and justify the answers of these questions:
+> - Will (A)'s container be able to ping (B)?
+> - Will (B) be able to ping (A)'s container?
+> - Indeed, (A) implements a NAT router. Does it help protecting (A)'s
+>   containers from external attacks?
 
 ## A complete exercise
 
