@@ -781,6 +781,7 @@ sudo iptables -t nat -A POSTROUTING ! -o <net0> -s 10.0.0.0/8 -j MASQUERADE
 
 Replace `<net0>` in the last command with net0 interface's name that you
 can see when running `ip a` in the host computer (i.e. `br-c39dadf0293e`).
+You will have to delete the rule manually by the end of the lab session.
 
 > **TASK 12**
 > 
