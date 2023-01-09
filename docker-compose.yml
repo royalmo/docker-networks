@@ -39,6 +39,8 @@ services:
     hostname: node1
     tty: true
     stdin_open: true
+    cap_add:
+    - NET_ADMIN
     networks:
       - net0
       - net1
@@ -47,6 +49,8 @@ services:
     hostname: node2
     tty: true
     stdin_open: true
+    cap_add:
+    - NET_ADMIN
     networks:
       - net1
       - net2
@@ -56,6 +60,8 @@ services:
     hostname: node3
     tty: true
     stdin_open: true
+    cap_add:
+    - NET_ADMIN
     networks:
       - net1
   node4:
@@ -63,6 +69,8 @@ services:
     hostname: node4
     tty: true
     stdin_open: true
+    cap_add:
+    - NET_ADMIN
     networks:
       - net2
       - net4
@@ -72,6 +80,8 @@ services:
     hostname: node5
     tty: true
     stdin_open: true
+    cap_add:
+    - NET_ADMIN
     networks:
       - net3
       - net4
@@ -81,6 +91,8 @@ services:
     hostname: node6
     tty: true
     stdin_open: true
+    cap_add:
+    - NET_ADMIN
     networks:
       - net5
   node7:
@@ -88,6 +100,8 @@ services:
     hostname: node7
     tty: true
     stdin_open: true
+    cap_add:
+    - NET_ADMIN
     networks:
       - net6
 
