@@ -496,7 +496,7 @@ have a small description of every type:
 
 - **BRIDGE**: This is the most common network type, and the default for every
   new container. Every new network is simply a new sub-range of IP addresses 
-  inside the default `127.0.0.0/8` IP range. Of course, the addresses can be
+  inside the default `172.0.0.0/8` IP range. Of course, the addresses can be
   manually set. The bridge network also connects the containers with the host
   machine, as it also has an IP (which is normally the gateway).
 
@@ -630,7 +630,7 @@ do this by ourselves, but Docker does it for us.
 A good way to learn all the network stuff is to play with it. For this, you will
 need some new docker commands. Here are some examples that you may need:
 
-- `docker network create -d bridge --subnet 127.0.56.0/24 new_network_name` will
+- `docker network create -d bridge --subnet 172.0.56.0/24 new_network_name` will
   create a new network of type *bridge* and the specified subnet and name.
 
 - `docker run -it --network new_network_name royalmo/docker-networks` will run

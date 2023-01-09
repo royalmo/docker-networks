@@ -32,7 +32,7 @@ strict graph G {
     }
 
 # Example of how subnets can be speficied
-#   net0 [shape="plain" label="net0\nsubnet: 127.0.17.0/24"]
+#   net0 [shape="plain" label="net0\nsubnet: 172.0.17.0/24"]
     net0 [shape="plain"]
     net1 [shape="plain"]
     net2 [shape="plain"]
@@ -42,7 +42,7 @@ strict graph G {
     net6 [shape="plain"]
 
 # Example of how interfaces and IPs can be speficied
-#   Host -- net0 [label="127.0.17.1\ndev: docker0"]
+#   Host -- net0 [label="172.0.17.1\ndev: br-fafeb249b36f"]
     Host -- net0
     net0 -- Node1
 
