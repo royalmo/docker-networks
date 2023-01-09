@@ -50,7 +50,10 @@ EPSEM (UPC Manresa). You can check more content
   - [Extra: docker swarm](#extra-docker-swarm)
   - [Default network setup](#default-network-setup)
   - [Managing docker networks](#managing-docker-networks)
-- [Docker networking](#docker-networking)
+- [A complete exercise](#a-complete-exercise)
+  - [Getting familiarized with the network](#getting-familiarized-with-the-network)
+  - [Extending docker's NAT](#extending-dockers-nat)
+  - [To be continued ...](#to-be-continued)
 - [More information](#more-information)
   - [Copyright notice](#copyright-notice)
 
@@ -672,7 +675,8 @@ manual](https://docs.docker.com/engine/reference/commandline/network_create/).
 > (B), both connected to the same LAN (i. e. (A) and (B) must be able to ping
 > each other).
 > - There is a bridge network in (A) with subnet `10.250.45.0/24`.
-> - (A) has a single container connected to that bridge network.
+> - (A) has a single container (with image `royalmo/docker-networks`) connected
+>   to that bridge network.
 > - (B) has the route `10.250.45.0/24 via <A's IP>`
 > 
 > Try (if possible) and justify the answers of these questions:
@@ -726,6 +730,8 @@ everything works as expected using _tcpdump_.
 > Once everything is up and running, attach to every node. Remember to use
 > bash's tabs or another fancy terminal for ubuntu like *tilix*.
 
+### Getting familiarized with the network
+
 The nodes are connected with overlay networks. To prevent some headaches, a
 schema is provided to you:
 
@@ -752,8 +758,8 @@ state.
 > **EXERCISE 12**
 > 
 > Check if *node1* has internet access (with a ping to google.com). Now check it
-> for any other node. Try also to ping a neighbor, and a neighbor of a
-> neighbor.
+> for any other node. Try also to ping *node1* from *node2*, and a *node7* from
+> *node2*.
 
 As you can see, there is a lot to do. But as we did this in previous lab
 sessions, it should be done faster than expected.
@@ -762,11 +768,26 @@ However, you can see that there are multiple ways to reach some nodes. Be
 careful with how you set up some routes, you may end up sending the packets
 into an infinite loop (and loose them due to TTL)!
 
+### Extending docker's NAT
+
+We need to take account of another thing: Docker created a NAT router
+**only for the bridge network's subnet**. We need to add the overlay networks'
+IPs into that NAT. As the following tasks are a little long, here you have
+the magic command:
+
+```
+sudo iptables -t nat -A POSTROUTING ! -o <net0> -s 10.0.0.0/8 -j MASQUERADE
+```
+
+Replace `<net0>` in the last command with net0 interface's name that you
+can see when running `ip a` in the host computer (i.e. `br-c39dadf0293e`).
+
 > **TASK 12**
 > 
 > By only changing the packet forwarding bit and the routing tables of every
 > node (and maybe the host?), make that every node can communicate to every node
-> **and** has internet access.
+> **and** has internet access (remember to add the *POSTROUTING* route on the
+> host).
 > 
 > Explain the criteria you used to set up the routes (i.e. why did you chose to
 > send packets through that way and not another).
@@ -776,6 +797,8 @@ into an infinite loop (and loose them due to TTL)!
 
 If you finished the last task and all worked, congratulations! You finished this
 lab session and learned something (hopefully).
+
+### To be continued ...
 
 For those that didn't have enough, an extra task has been prepared for you.
 As with the *Task 12*, it's something you did in other lab sessions. Have fun!
