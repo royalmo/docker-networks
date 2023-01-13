@@ -53,7 +53,7 @@ EPSEM (UPC Manresa). You can check more content
 - [A complete exercise](#a-complete-exercise)
   - [Getting familiarized with the network](#getting-familiarized-with-the-network)
   - [Extending docker's NAT](#extending-dockers-nat)
-  - [To be continued ...](#to-be-continued)
+  - [To be continued...](#to-be-continued)
 - [More information](#more-information)
   - [Copyright notice](#copyright-notice)
 
@@ -799,7 +799,7 @@ You will have to delete the rule manually by the end of the lab session.
 If you finished the last task and all worked, congratulations! You finished this
 lab session and learned something (hopefully).
 
-### To be continued ...
+### To be continued...
 
 For those that didn't have enough, an extra task has been prepared for you.
 As with the *Task 12*, it's something you did in other lab sessions. Have fun!
