@@ -830,6 +830,11 @@ routes automatically.
 But that is too much for a lab session, do it on your own and only if you
 want! ;)
 
+There's a cool GitHub repository I haven't tried, but it looks promissing. It's
+[LeoVerto/docker-network-graph](https://github.com/LeoVerto/docker-network-graph).
+It creates a Docker network graph automatically, so it may be worth giving it
+a try!
+
 ### Copyright notice
 
 This project is under the GPL v3 license. Please give credit if you wish to use
